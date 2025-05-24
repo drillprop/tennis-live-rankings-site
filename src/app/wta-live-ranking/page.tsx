@@ -23,7 +23,9 @@ function WtaLiveRanking() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <WtaLiveRankingTable wtaLiveRankingPromise={wtaLiveRankingPromise} />
+      <main className="max-w-screen-lg mx-auto mt-10">
+        <WtaLiveRankingTable wtaLiveRankingPromise={wtaLiveRankingPromise} />
+      </main>
     </Suspense>
   );
 }

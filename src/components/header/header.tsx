@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/shadcn/button";
 
 export function Header() {
   return (
     <header className="flex px-5 py-3 border-b border-border bg-zinc-50">
-      <nav className="flex flex-row gap-12 items-center w-full">
+      <nav className="flex flex-row gap-12 items-center w-full max-w-screen-lg mx-auto">
         <h1 className="text-2xl text-zinc-900 font-bold">
           <Link className="hover:underline" href="/">
             Live Tennis Rankings
