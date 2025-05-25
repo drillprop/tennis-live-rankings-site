@@ -22,11 +22,11 @@ function WtaLiveRanking() {
   const wtaLiveRankingPromise = fetchWtaLiveRanking();
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <main className="max-w-screen-lg mx-auto mt-10">
+    <main className="max-w-screen-lg mx-auto mt-10">
+      <Suspense fallback={<div>Loading...</div>}>
         <WtaLiveRankingTable wtaLiveRankingPromise={wtaLiveRankingPromise} />
-      </main>
-    </Suspense>
+      </Suspense>
+    </main>
   );
 }
 

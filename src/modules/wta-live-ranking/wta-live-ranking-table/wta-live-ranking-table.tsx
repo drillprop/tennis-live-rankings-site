@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
+import { cn } from "@/lib/utils";
 import { WtaPlayer, WtaRanking } from "@/schemas/wta-ranking";
 import {
   createColumnHelper,
@@ -29,7 +30,7 @@ export const WtaLiveRankingTable = ({
   const columns = useMemo(() => {
     return [
       columnHelper.accessor("ranking", {
-        header: "Ranking",
+        header: "#",
         cell: ({ row }) => {
           return <div>{row.original.ranking}</div>;
         },
@@ -38,8 +39,32 @@ export const WtaLiveRankingTable = ({
         header: "Name",
         cell: ({ row }) => {
           return (
-            <div>
-              {row.original.name} {row.original.rankingChange}
+            <div className="flex items-center justify-between gap-2">
+              {row.original.name}
+            </div>
+          );
+        },
+      }),
+      columnHelper.accessor("rankingChange", {
+        header: "",
+        cell: ({ row }) => {
+          return (
+            <div
+              className={cn(
+                {
+                  "text-green-600":
+                    row.original.rankingChange &&
+                    row.original.rankingChange > 0,
+                  "text-red-600":
+                    row.original.rankingChange &&
+                    row.original.rankingChange < 0,
+                },
+                "flex items-center justify-center"
+              )}
+            >
+              {row.original.rankingChange &&
+                (row.original.rankingChange > 0 ? "+" : "")}
+              {row.original.rankingChange}
             </div>
           );
         },
@@ -78,7 +103,10 @@ export const WtaLiveRankingTable = ({
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <TableHead
-                className="border-b-1 border-zinc-200 bg-zinc-50 border-separate border-spacing-0 not-last:border-r-1 first:rounded-tl-md last:rounded-tr-md"
+                className={cn(
+                  "border-b-1 border-zinc-300 bg-zinc-100 not-last:border-r-1 first:rounded-tl-md last:rounded-tr-md",
+                  header.id === "name" && "border-r-zinc-100"
+                )}
                 key={header.id}
                 colSpan={header.colSpan}
               >
@@ -93,9 +121,12 @@ export const WtaLiveRankingTable = ({
       </TableHeader>
       <TableBody>
         {table.getFilteredRowModel().rows.map((row) => (
-          <TableRow key={row.id}>
+          <TableRow key={row.id} className="even:bg-zinc-100">
             {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id}>
+              <TableCell
+                key={cell.id}
+                className="[tr:not(:last-child)_&]:border-b-1 [tr:not(:last-child)_&]:border-zinc-300"
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}
