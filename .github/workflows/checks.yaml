@@ -1,8 +1,6 @@
 name: Checks
-on:
-  pull_request:
-  push:
-permissions: {}
+on: [push, pull_request]
+
 jobs:
   prettier:
     runs-on: ubuntu-latest
