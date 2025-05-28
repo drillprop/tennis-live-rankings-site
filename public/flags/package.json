@@ -1,0 +1,6 @@
+{
+	"name": "flags-downloader",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "Script to download missing flag SVGs"
+}

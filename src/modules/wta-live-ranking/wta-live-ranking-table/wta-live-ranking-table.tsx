@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/shadcn/table";
+import { countries } from "@/consts/flags-map";
 import { cn } from "@/lib/utils";
 import { WtaPlayer, WtaRanking } from "@/schemas/wta-ranking";
 import {
@@ -16,6 +17,7 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
+import Image from "next/image";
 import { use, useMemo } from "react";
 
 export const WtaLiveRankingTable = ({
@@ -31,18 +33,29 @@ export const WtaLiveRankingTable = ({
 		return [
 			columnHelper.accessor("ranking", {
 				header: "#",
+				size: 2,
 				cell: ({ row }) => {
 					return <div>{row.original.ranking}</div>;
 				},
 			}),
 			columnHelper.accessor("name", {
 				header: "Name",
+				size: 20,
 				cell: ({ row }) => {
-					return <div className="flex items-center justify-between gap-2">{row.original.name}</div>;
+					const countryFlag = countries[row.original.country as keyof typeof countries];
+					return (
+						<div className="flex items-center justify-between gap-2">
+							{countryFlag && (
+								<Image src={countryFlag.flagUrl} alt={countryFlag.name} width={20} height={20} />
+							)}
+							{row.original.name}
+						</div>
+					);
 				},
 			}),
 			columnHelper.accessor("rankingChange", {
 				header: "",
+				size: 18,
 				cell: ({ row }) => {
 					return (
 						<div
@@ -62,18 +75,40 @@ export const WtaLiveRankingTable = ({
 			}),
 			columnHelper.accessor("country", {
 				header: "Country",
+				size: 10,
 				cell: ({ row }) => {
 					return <div>{row.original.country}</div>;
 				},
 			}),
-			columnHelper.accessor("age", {
-				header: "Age",
+			columnHelper.accessor("currentTournament", {
+				header: "Current Tournament",
 				cell: ({ row }) => {
-					return <div>{row.original.age}</div>;
+					return <div>{row.original.currentTournament}</div>;
+				},
+			}),
+			columnHelper.accessor("pointsChange", {
+				header: "",
+				size: 20,
+				cell: ({ row }) => {
+					return (
+						<div
+							className={cn(
+								{
+									"text-green-600": row.original.pointsChange && row.original.pointsChange > 0,
+									"text-red-600": row.original.pointsChange && row.original.pointsChange < 0,
+								},
+								"flex items-end justify-end",
+							)}
+						>
+							{row.original.pointsChange && (row.original.pointsChange > 0 ? "+" : "")}
+							{row.original.pointsChange}
+						</div>
+					);
 				},
 			}),
 			columnHelper.accessor("points", {
 				header: "Points",
+				size: 20,
 				cell: ({ row }) => {
 					return <div>{row.original.points}</div>;
 				},
@@ -88,7 +123,14 @@ export const WtaLiveRankingTable = ({
 	});
 
 	return (
-		<Table className="w-full table-fixed border-separate border-spacing-0 rounded-md border-1 border-zinc-200">
+		<Table className="w-full table-auto border-separate border-spacing-0 rounded-md border-1 border-zinc-200">
+			<colgroup>
+				{table.getHeaderGroups().map((headerGroup) =>
+					headerGroup.headers.map((header) => {
+						return <col key={header.id} style={{ width: `${header.getSize()}%` }} />;
+					}),
+				)}
+			</colgroup>
 			<TableHeader>
 				{table.getHeaderGroups().map((headerGroup) => (
 					<TableRow key={headerGroup.id}>
@@ -96,7 +138,9 @@ export const WtaLiveRankingTable = ({
 							<TableHead
 								className={cn(
 									"border-b-1 border-zinc-300 bg-zinc-100 not-last:border-r-1 first:rounded-tl-md last:rounded-tr-md",
-									header.id === "name" && "border-r-zinc-100",
+									{
+										"border-r-zinc-100": header.id === "name" || header.id === "rankingChange",
+									},
 								)}
 								key={header.id}
 								colSpan={header.colSpan}
