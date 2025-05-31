@@ -44,7 +44,7 @@ export const WtaLiveRankingTable = ({
 				cell: ({ row }) => {
 					const countryFlag = countries[row.original.country as keyof typeof countries];
 					return (
-						<div className="flex items-center gap-2 ">
+						<div className="flex items-center gap-2">
 							{countryFlag && (
 								<Image src={countryFlag.flagUrl} alt={countryFlag.name} height={16} width={16} />
 							)}
@@ -123,7 +123,7 @@ export const WtaLiveRankingTable = ({
 	});
 
 	return (
-		<Table className="border-1 w-full table-auto border-separate border-spacing-0 rounded-md border-zinc-200">
+		<Table className="w-full table-auto border-separate border-spacing-0 rounded-md border-1 border-zinc-200">
 			<colgroup>
 				{table.getHeaderGroups().map((headerGroup) =>
 					headerGroup.headers.map((header) => {
@@ -137,7 +137,7 @@ export const WtaLiveRankingTable = ({
 						{headerGroup.headers.map((header) => (
 							<TableHead
 								className={cn(
-									"border-b-1 not-last:border-r-1 border-zinc-300 bg-zinc-100 first:rounded-tl-md last:rounded-tr-md",
+									"border-b-1 border-zinc-300 bg-zinc-100 not-last:border-r-1 first:rounded-tl-md last:rounded-tr-md",
 									{
 										"border-r-zinc-100": header.id === "name" || header.id === "pointsChange",
 									},
