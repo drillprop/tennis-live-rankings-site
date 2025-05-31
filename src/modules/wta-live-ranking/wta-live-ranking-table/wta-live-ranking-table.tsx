@@ -18,7 +18,7 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import Image from "next/image";
-import { use, useMemo } from "react";
+import React, { use, useMemo } from "react";
 
 export const WtaLiveRankingTable = ({
 	wtaLiveRankingPromise,
@@ -44,9 +44,9 @@ export const WtaLiveRankingTable = ({
 				cell: ({ row }) => {
 					const countryFlag = countries[row.original.country as keyof typeof countries];
 					return (
-						<div className="flex items-center justify-between gap-2">
+						<div className="flex items-center gap-2 ">
 							{countryFlag && (
-								<Image src={countryFlag.flagUrl} alt={countryFlag.name} width={20} height={20} />
+								<Image src={countryFlag.flagUrl} alt={countryFlag.name} height={16} width={16} />
 							)}
 							{row.original.name}
 						</div>
@@ -87,7 +87,7 @@ export const WtaLiveRankingTable = ({
 				},
 			}),
 			columnHelper.accessor("pointsChange", {
-				header: "",
+				header: "Points",
 				size: 20,
 				cell: ({ row }) => {
 					return (
@@ -107,7 +107,7 @@ export const WtaLiveRankingTable = ({
 				},
 			}),
 			columnHelper.accessor("points", {
-				header: "Points",
+				header: "",
 				size: 20,
 				cell: ({ row }) => {
 					return <div>{row.original.points}</div>;
@@ -123,7 +123,7 @@ export const WtaLiveRankingTable = ({
 	});
 
 	return (
-		<Table className="w-full table-auto border-separate border-spacing-0 rounded-md border-1 border-zinc-200">
+		<Table className="border-1 w-full table-auto border-separate border-spacing-0 rounded-md border-zinc-200">
 			<colgroup>
 				{table.getHeaderGroups().map((headerGroup) =>
 					headerGroup.headers.map((header) => {
@@ -137,9 +137,9 @@ export const WtaLiveRankingTable = ({
 						{headerGroup.headers.map((header) => (
 							<TableHead
 								className={cn(
-									"border-b-1 border-zinc-300 bg-zinc-100 not-last:border-r-1 first:rounded-tl-md last:rounded-tr-md",
+									"border-b-1 not-last:border-r-1 border-zinc-300 bg-zinc-100 first:rounded-tl-md last:rounded-tr-md",
 									{
-										"border-r-zinc-100": header.id === "name" || header.id === "rankingChange",
+										"border-r-zinc-100": header.id === "name" || header.id === "pointsChange",
 									},
 								)}
 								key={header.id}
