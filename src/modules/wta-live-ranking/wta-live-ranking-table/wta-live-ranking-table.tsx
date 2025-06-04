@@ -1,6 +1,15 @@
 "use client";
 
 import {
+	createColumnHelper,
+	flexRender,
+	getCoreRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
+import Image from "next/image";
+import React, { use, useMemo } from "react";
+
+import {
 	Table,
 	TableBody,
 	TableCell,
@@ -11,14 +20,6 @@ import {
 import { countries } from "@/consts/flags-map";
 import { cn } from "@/lib/utils";
 import { WtaPlayer, WtaRanking } from "@/schemas/wta-ranking";
-import {
-	createColumnHelper,
-	flexRender,
-	getCoreRowModel,
-	useReactTable,
-} from "@tanstack/react-table";
-import Image from "next/image";
-import React, { use, useMemo } from "react";
 
 export const WtaLiveRankingTable = ({
 	wtaLiveRankingPromise,
